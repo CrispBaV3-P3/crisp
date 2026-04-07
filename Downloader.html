@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>CrispBa Platform</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <meta property="og:title" content="Bible Quest - Earning App (Early Access)" />
+    <meta property="og:description" content="Tap to download the latest version securely." />
+    <meta property="og:image" content="https://crispba.github.io/crispinjr-official-websites/linkpreviewimages.png" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#000000">
+	<meta name="monetag-verification" content="26751051c511e81cb23e8d59f7311aed">
+	<script src="https://pl29058120.profitablecpmratenetwork.com/71/ef/9e/71ef9ed3dd6a2395a2c97ab770465e5d.js"></script>
+
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+h1 {
+    padding: 0px 1px 20px 0px;
+    margin: 0px;
+    bottom: 10px;
+    transform: translate(1px, -10px);
+    color: #ffd70099;
+    font-size: 27px;
+}
+
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Inter', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* Prevents weird scrolling on mobile */
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- FULL SCREEN BACKGROUND SLIDESHOW --- */
+        .slider-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            /* Animation timing */
+            animation: slideLeftToRight 25s infinite;
+        }
+
+        .slide:nth-child(1) { background-image: url('slide1.png'); animation-delay: 0s; }
+        .slide:nth-child(2) { background-image: url('slide2.png'); animation-delay: 5s; }
+        .slide:nth-child(3) { background-image: url('slide3.png'); animation-delay: 10s; }
+        .slide:nth-child(4) { background-image: url('slide4.png'); animation-delay: 15s; }
+        .slide:nth-child(5) { background-image: url('slide5.png'); animation-delay: 20s; }
+
+        @keyframes slideLeftToRight {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { transform: translateX(0%); opacity: 1; }
+            20% { transform: translateX(0%); opacity: 1; }
+            30% { transform: translateX(100%); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(359deg, #000000b3, #00000099);
+    backdrop-filter: blur(0.6px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: -1;
+}
+
+       .glass-card {
+    background: #94a3b89c;
+    border: 2px solid var(--border);
+    padding: 2.5rem 2rem;
+    border-radius: 2rem;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: cardAppear 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+}
+.btn-download {
+            display: block;
+            padding: 1rem;
+            background: #ffffff;
+            color: #0006ffbf;
+            text-decoration: none;
+            border-radius: 1.1rem;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* The Shimmer Effect */
+        .btn-download::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 50%, 
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(25deg);
+            transition: all 0.7s ease;
+        }
+
+        .btn-download:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Triggers the shimmer on hover */
+        .btn-download:hover::after {
+            left: 120%;
+        }
+
+        .btn-download:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .app-img {
+    width: 90px;
+    height: 80px;
+    border-radius: 1.2rem;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border: 8px solid #fff;
+    background-color: white;
+    transform: scale(0.8);
+  h1 {      
+    padding: 0px 1px 20px 0px;
+    margin: 0px;
+    bottom: 10px;
+    transform: translate(1px, -10px);
+    color: #ffd70099;
+    font-size: 27px;
+}
+        
+        .app-status { 
+            font-size: 0.85rem; 
+            color: #94a3b8; 
+            margin-bottom: 2rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+
+        .pulse-dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--accent); 
+            border-radius: 50%; 
+            box-shadow: 0 0 10px var(--accent); 
+            animation: breathe 2s infinite; 
+        }
+
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.4; } }
+
+        .btn-download {
+            display: block;
+            padding: 1rem;
+            background: #fff;
+            color: #0006ffbf;
+            text-decoration: none;
+            border-radius: 1rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-download:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+
+        .timer-info {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- MOBILE-SPECIFIC ADJUSTMENTS --- */
+        @media (max-width: 360px) {
+            .glass-card { padding: 2rem 1.5rem; }
+            .app-img { width: 70px; height: 70px; }
+            h1 { font-size: 1.3rem; }
+            .btn-download { padding: 0.85rem; font-size: 0.85rem; }
+        }
+
+        /* --- LAPTOP/DESKTOP ADJUSTMENTS --- */
+        @media (min-width: 1024px) {
+            .glass-card { max-width: 420px; padding: 3rem; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slider-container">
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+    </div>
+    
+    <div class="overlay"></div>
+
+    <main class="glass-card">
+        <img src="favicon(BQ).png" alt="App Icon" class="app-img">
+        <h1>Bible Quest</h1>
+        <div class="app-status">
+            <div class="pulse-dot"></div>
+            Searching for latest APK...
+        </div>
+        <a href="https://crispba.github.io/crispinjr-official-websites/com.crispba.biblequest.apk" class="btn-download">Download Now</a>
+        <p class="timer-info">
+            Redirecting in <span id="timer">9</span>s
+        </p>
+    </main>
+
+    <script>
+        let timeLeft = 10;
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if (timerElement) timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = "https://crispba.github.io/crispinjr-official-websites/com.crispba.biblequest.apk";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

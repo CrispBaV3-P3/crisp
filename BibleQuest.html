@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bible Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon(BQ).png" type="image/x-icon">
+   <script src="https://3nbf4.com/act/files/service-worker.min.js?r=sw"></script>
+   <script src="https://pl29058120.profitablecpmratenetwork.com/71/ef/9e/71ef9ed3dd6a2395a2c97ab770465e5d.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<!-- Google Identity Services Library -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- JWT Decoder for parsing Google credentials -->
+<script src="https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<body>
+<base target="_blank">
+</head>
+<body>
+<div class="modal" id="ratingModal" style="backdrop-filter: blur(20px); background: rgb(0 0 0 / 0%);">
+    <div class="container" style="max-width: 350px; animation: fadeInUp 0.6s ease;">
+        <div class="heading" style="font-size: 24px; margin-bottom: 10px;">Rate Your Experience</div>
+        <p style="text-align: center; color: #666; font-size: 0.85rem; margin-bottom: 20px;">
+            How was your redemption process?
+        </p>
+        
+        <div class="star-rating" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; font-size: 2rem; cursor: pointer;">
+            <span class="star" data-value="1" onclick="setRating(1)" style="color: #ddd; transition: color 0.3s;">★</span>
+            <span class="star" data-value="2" onclick="setRating(2)" style="color: #ddd; transition: color 0.3s;">★</span>
+            <span class="star" data-value="3" onclick="setRating(3)" style="color: #ddd; transition: color 0.3s;">★</span>
+            <span class="star" data-value="4" onclick="setRating(4)" style="color: #ddd; transition: color 0.3s;">★</span>
+            <span class="star" data-value="5" onclick="setRating(5)" style="color: #ddd; transition: color 0.3s;">★</span>
+        </div>
+        
+        <input type="hidden" id="selectedRating" value="0">
+        
+        <textarea id="feedbackMsg" placeholder="Share your feedback (optional)..." 
+            style="width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #ddd; 
+                   background: white; font-family: 'Poppins', sans-serif; font-size: 14px; 
+                   resize: none; height: 80px; margin-bottom: 15px; outline: none;"></textarea>
+        
+        <button onclick="submitRating()" 
+            style="display: block; width: 100%; font-weight: bold; 
+                   background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%); 
+                   color: white; padding-block: 15px; border-radius: 20px; 
+                   border: none; transition: all 0.2s ease-in-out; cursor: pointer; 
+                   font-family: 'Poppins', sans-serif; font-size: 16px;">
+            Submit Feedback
+        </button>
+        
+        <button onclick="closeRatingModal()" 
+            style="background: transparent; color: #999; border: none; 
+                   padding: 10px; width: 100%; margin-top: 10px; cursor: pointer; font-size: 14px;">
+            Skip
+        </button>
+    </div>
+</div>
+
+<div id="loader">
+    <div class="loader-inner">
+         <div class="loader-3d">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="loader-text">Seeking Truth...</div>
+    </div>
+</div>
+    <header>
+        <div class="logo">
+            <img src="favicon(BQ).png" width="32" height="32" style="align-items: flex-start;">
+            BIBLE QUEST
+        </div>
+     <div class="user-controls">
+<div class="points-display">
+    <i data-lucide="zap"></i> 
+    <span id="pts">0</span>
+    
+    <!-- Icons moved inside points-display -->
+    <button onclick="logout()" class="resetpass-btn" id="logoutBtn" style="display: none;">
+        <img src="logout_4836207.png" alt="Logout" class="resetpass-icon">
+        <span class="resetpass-tooltip">LOGOUT</span>
+    </button>
+
+    <button onclick="openResetModal()" class="logout-btn" id="resetBtn" style="display: none;">
+        <img src="reset-password_4992475.png" alt="Reset" class="logout-icon">
+        <span class="logout-tooltip">RESET</span>
+    </button>
+</div>
+    </header>
+
+    <div class="search-area">
+    <div class="search-box">
+        <input type="text" id="vSearch" class="search-input" placeholder="Seek here (e.g. Genesis 1:1)">
+        <button class="search-go" onclick="manualSearch()">
+            <i data-lucide="search"></i>
+        </button>
+    </div>
+</div>
+
+    <nav>
+        <button class="nav-btn active" onclick="showTab('meditate', this)"><i data-lucide="book-open"></i><span>Quest</span></button>
+        <button class="nav-btn" onclick="showTab('shop', this)"><i data-lucide="gem"></i><span>Shop</span></button>
+        <button class="nav-btn" onclick="showTab('logs', this)"><i data-lucide="scroll"></i><span>History</span></button>
+    </nav>
+
+    <div class="container">
+        <section id="meditate" class="section active">
+            <div class="verse-card">
+                <div class="verse-image-container"><img id="verseImg" src="https://picsum.photos/seed/bible/600/400" alt="Visual"></div>
+                <h3 id="vRef">Seeker</h3>
+                <p id="vText">Fetching the light...</p>
+                <div class="timer-wrap">
+                    <svg class="timer-svg" viewBox="0 0 100 100">
+                        <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+                        <circle id="pCircle" class="circle-progress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="timer-val" id="timerTxt">--</div>
+                </div>
+                <button id="claimBtn" class="btn-claim" onclick="claimAndNext()" disabled>Wait...</button>
+            </div>
+        </section>
+
+        <section id="shop" class="section">
+            <h3 style="color:var(--gold); margin-bottom:15px; font-family:'Cinzel';">Store</h3>
+            <div id="shopList"></div>
+        </section>
+
+        <section id="logs" class="section">
+            <h3 style="color:var(--gold); margin-bottom:15px; font-family:'Cinzel';">History</h3>
+            <div id="logContent"></div>
+        </section>
+
+           </div>
+
+    <div id="toast">Not enough points!</div>
+
+    <div class="modal" id="redeemModal">
+        <div class="modal-box">
+            <h3 style="color:var(--gold); font-family:'Cinzel'; margin-bottom:15px;">Verify GCash</h3>
+            <input type="text" id="gName" placeholder="GCash Registered Name">
+            <input type="tel" id="gNum" placeholder="GCash Number (09...)">
+            <input type="email" id="gEmail" placeholder="Email for Receipt">
+            <button class="btn-submit" onclick="processRedeem()">Submit Redemption</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:white; width:100%; margin-top:15px; opacity:0.5; cursor:pointer;">Cancel</button>
+        </div>
+    </div>
+<div class="modal" id="resetModal">
+    <div class="modal-box" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://media.istockphoto.com/id/1415506121/video/shield-icon-cyber-security-digital-data-network-protection-future-technology-digital-data.avif?s=640x640&k=20&c=iytlwDasjYyhPIYojeshSVlBUzln6Cws7HIIzairW6M=');">
+<h3 style="color: gainsboro;font-family:'Cinzel';margin-bottom:20px;font-size: 1.5rem;">CHANGE PASSWORD</h3>
+        
+        <div class="password-wrapper">
+            <input type="password" id="currentPass" placeholder="Current Password">
+            <i data-lucide="eye" onclick="togglePassword('currentPass', this)"></i>
+        </div>
+
+        <div class="password-wrapper">
+            <input type="password" id="newPass" placeholder="New Password">
+            <i data-lucide="eye" onclick="togglePassword('newPass', this)"></i>
+        </div>
+
+        <div class="password-wrapper">
+            <input type="password" id="retypePass" placeholder="Re-type Password">
+            <i data-lucide="eye" onclick="togglePassword('retypePass', this)"></i>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn-submit" onclick="handlePasswordReset()" style="margin-top:0; flex: 1;">Submit</button>
+            <button onclick="closeResetModal()" style="background: var(--gold-gradient); color: #3a2a00; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: 700; cursor: pointer; flex: 1;">Close</button>
+        </div>
+    </div>
+</div>
+<div id="authOverlay">
+   <div class="container" id="loginContainer">
+    <div class="heading">Login</div>
+    <form class="form" onsubmit="event.preventDefault(); handleAuth('login');">
+        <input
+            placeholder="E-mail"
+            id="authEmail"
+            name="email"
+            type="email"
+            class="input"
+            required
+        />
+        <div class="password-wrapper-modern">
+            <input
+                placeholder="Password"
+                id="authPass"
+                name="password"
+                type="password"
+                class="input"
+                required
+            />
+            <i data-lucide="eye" onclick="togglePassword('authPass', this)" class="eye-icon"></i>
+        </div>
+        
+        <!-- MOVED: License Agreement checkbox to login -->
+        <label class="agreement" style="display: flex; align-items: center; gap: 4px; margin-top: 15px; cursor: pointer; justify-content: flex-start; padding-left: 5px;">
+    <input type="checkbox" id="licenseAgreeLogin" style="width: 16px; height: 16px; cursor: pointer; accent-color: rgb(16, 137, 211);">
+    <span style="font-size: 11px; color: #666;">
+        I agree to the <a href="#" onclick="event.preventDefault(); event.stopPropagation(); showLicenseModal(); return false;" style="color: rgb(16, 137, 211); text-decoration: none; font-weight: 600;">User License Agreement</a>
+    </span>
+</label><span class="forgot-password"><a href="#" onclick="showForgotPassword(); return false;">Forgot Password?</a></span>
+        <button type="submit" class="login-button">Sign In</button>
+    </form>
+    <!-- License Agreement Modal - Styled to match login page -->
+<div class="modal" id="licenseModal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index: 99999; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(20px);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(https://images.unsplash.com/photo-1438109491414-7198515b166b?q=80&w=2070&auto=format&fit=crop);background-size: cover;
+    background-position: center;
+    background-attachment: fixed;">
+    <div class="container" style="max-width: 400px; max-height: 95vh; overflow-y: auto; animation: fadeInUp 0.6s ease; position: relative; background: linear-gradient(0deg, rgb(255 255 255) 0%, rgb(133 189 215) 100%); border-radius: 40px; padding: 20px 20px;">
+<div class="heading" style="font-size: 16px;margin-bottom: 20px;text-align: center;font-weight: 900;color: #000000b3;font-family: 'Poppins', sans-serif;">User License Agreement</div>
+        
+        <div style="text-align: left; max-height: 50vh; overflow-y: auto; padding: 0 10px; margin-bottom: 20px; font-size: 0.8rem; line-height: 1.6; color: #555;">
+            
+            <p style="margin-bottom: 12px; color: rgb(16, 137, 211); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 5px;">
+                <img style="height: 1.3rem; width: auto;" alt="Terms icon" src="terms-and-conditions.png">
+                Terms of Use
+            </p>
+            
+            <p style="margin-bottom: 10px; padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>1. Acceptance</strong><br>
+                By logging in, you agree to use Bible Quest for spiritual growth and abide by all platform rules.
+            </p>
+            
+            <p style="margin-bottom: 10px; padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>2. Points & Rewards</strong><br>
+                Points are earned through meditation. Rewards are subject to verification. Fraudulent activity results in ban.
+            </p>
+            
+            <p style="margin-bottom: 10px; padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>3. Account Security</strong><br>
+                You are responsible for maintaining your password confidentiality. Report unauthorized access immediately.
+            </p>
+            
+            <p style="margin-bottom: 10px; padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>4. Privacy</strong><br>
+                We collect email and usage data to improve service. GCash info is used solely for reward distribution.
+            </p>
+            
+            <p style="margin-bottom: 10px; padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>5. Conduct</strong><br>
+                No bots, exploits, or abuse. Violations will result in account termination and forfeiture of points.
+            </p>
+            
+            <p style="padding-left: 10px; border-left: 2px solid rgb(16, 137, 211);">
+                <strong>6. Updates</strong><br>
+                Terms may be updated. Continued use constitutes acceptance of new terms.
+            </p>
+        </div>
+        
+        <button onclick="acceptLicense()" style="display: block;
+    width: 100%;
+    font-weight: bold;
+    background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
+    color: white;
+    padding-block: 10px;
+    border-radius: 20px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;">
+            I Agree & Continue
+        </button>
+        
+        <button onclick="closeLicenseModal()" style="background: transparent; color: #666; border: 2px solid #ddd; padding: 12px; border-radius: 20px; width: 100%; font-weight: 600; cursor: pointer; font-size: 14px;">
+            Cancel
+        </button>
+    </div>
+</div>
+    <div class="social-account-container">
+        <span class="title">Or Sign in with</span>
+        <div class="social-accounts" id="googleLoginContainer">
+
+           <button type="button" class="social-button google" onclick="handleGoogleSignIn()">
+    <img src="google.png" alt="Google Logo" style="height: 1.2em;width: auto;vertical-align: middle;transform: scale(1.2);">
+</button></div>
+    </div>
+    <p style="margin-top:15px; font-size:0.8rem; color:#666; text-align:center;">
+        New seeker? <span onclick="showRegister()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Create Account</span>
+    </p>
+</div>
+<!-- STEP 1: Forgot Password - Enter Email -->
+<div class="container" id="forgotPasswordContainer" style="display:none;">
+    <div class="step-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+    </div>
+    <div class="heading">Forgot Password</div>
+    <p style="text-align:center; color:#666; font-size:0.85rem; margin-bottom:20px;">
+        Enter your email to receive a verification code
+    </p>
+    <form class="form" onsubmit="event.preventDefault(); handleForgotPassword();">
+        <input
+            placeholder="Enter your email"
+            id="forgotEmail"
+            name="email"
+            type="email"
+            class="input"
+            required
+        />
+        <button type="submit" class="login-button">Send Email</button>
+    </form>
+    <p style="margin-top:15px; font-size:0.8rem; color:#666; text-align:center;">
+        Don't have an account? <span onclick="showRegister()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Sign up now</span>
+    </p>
+    <p style="margin-top:10px; font-size:0.8rem; color:#666; text-align:center;">
+        Remember your password? <span onclick="showLogin()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Login here</span>
+    </p>
+</div>
+
+<!-- STEP 2: Enter Verification Code -->
+<div class="container" id="verifyCodeContainer" style="display:none;">
+    <div class="step-indicator">
+        <div class="step-dot"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+    </div>
+    <div class="heading">Verify Code</div>
+    <p style="text-align:center; color:#666; font-size:0.85rem; margin-bottom:20px;">
+        Enter the 6-digit code sent to <span id="verifyEmailDisplay" style="color:rgb(16, 137, 211); font-weight:600;"></span>
+    </p>
+    <div class="code-inputs">
+        <input type="text" class="code-input" maxlength="1" id="code1" onkeyup="moveToNext(this, 'code2')" oninput="validateNumber(this)">
+        <input type="text" class="code-input" maxlength="1" id="code2" onkeyup="moveToNext(this, 'code3')" oninput="validateNumber(this)">
+        <input type="text" class="code-input" maxlength="1" id="code3" onkeyup="moveToNext(this, 'code4')" oninput="validateNumber(this)">
+        <input type="text" class="code-input" maxlength="1" id="code4" onkeyup="moveToNext(this, 'code5')" oninput="validateNumber(this)">
+        <input type="text" class="code-input" maxlength="1" id="code5" onkeyup="moveToNext(this, 'code6')" oninput="validateNumber(this)">
+        <input type="text" class="code-input" maxlength="1" id="code6" onkeyup="submitCode()" oninput="validateNumber(this)">
+    </div>
+    <button class="login-button" onclick="verifyCode()">Verify Code</button>
+    <p style="margin-top:15px; font-size:0.8rem; color:#666; text-align:center;">
+        Didn't receive code? <span onclick="resendCode()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Resend</span>
+    </p>
+    <p style="margin-top:10px; font-size:0.8rem; color:#666; text-align:center;">
+        Wrong email? <span onclick="backToForgot()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Go back</span>
+    </p>
+</div>
+
+<!-- STEP 3: Reset Password -->
+<div class="container" id="resetPasswordContainer" style="display:none;">
+    <div class="step-indicator">
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot active"></div>
+    </div>
+    <div class="heading">Reset Password</div>
+    <p style="text-align:center; color:#666; font-size:0.85rem; margin-bottom:20px;">
+        Create a new password for your account
+    </p>
+    <form class="form" onsubmit="event.preventDefault(); handlePasswordResetFinal();">
+        <div class="password-wrapper-modern">
+            <input
+                placeholder="New Password"
+                id="newResetPass"
+                name="password"
+                type="password"
+                class="input"
+                required
+                minlength="6"
+            />
+            <i data-lucide="eye" onclick="togglePassword('newResetPass', this)" class="eye-icon"></i>
+        </div>
+        <div class="password-wrapper-modern">
+            <input
+                placeholder="Confirm New Password"
+                id="confirmResetPass"
+                name="confirmPassword"
+                type="password"
+                class="input"
+                required
+                minlength="6"
+            />
+            <i data-lucide="eye" onclick="togglePassword('confirmResetPass', this)" class="eye-icon"></i>
+        </div>
+        <button type="submit" class="login-button">Reset Password</button>
+    </form>
+</div>
+
+<!-- Success Message -->
+<div class="container" id="resetSuccessContainer" style="display:none;">
+    <div style="text-align:center;">
+        <div style="width:80px; height:80px; background:linear-gradient(45deg, #4CAF50, #8BC34A); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+            <i data-lucide="check" style="width:40px; height:40px; color:white; stroke-width:3;"></i>
+        </div>
+        <div class="heading" style="color:#4CAF50;">Success!</div>
+        <p style="color:#666; font-size:0.9rem; margin:15px 0;">
+            Your password has been reset successfully.
+        </p>
+        <button class="login-button" onclick="showLogin()" style="margin-top:20px;">Login Now</button>
+    </div>
+</div>
+<div class="container" id="registerContainer" style="display:none;">
+    <div class="heading">Join the Quest</div>
+    <form class="form" onsubmit="event.preventDefault(); handleAuth('register');">
+        <input
+            placeholder="Full Name"
+            id="regName"
+            name="name"
+            type="text"
+            class="input"
+            required
+        />
+        <input
+            placeholder="E-mail"
+            id="regEmail"
+            name="email"
+            type="email"
+            class="input"
+            required
+        />
+        <div class="password-wrapper-modern">
+            <input
+                placeholder="Create Password"
+                id="regPass"
+                name="password"
+                type="password"
+                class="input"
+                required
+            />
+            <i data-lucide="eye" onclick="togglePassword('regPass', this)" class="eye-icon"></i>
+        </div>
+        <button type="submit" class="login-button">CREATE ACCOUNT</button>
+    </form>
+    
+    <!-- ADDED: Social Sign Up Section -->
+    <div class="social-account-container">
+        <span class="title">Or Sign up with</span>
+        <div class="social-accounts" id="googleRegContainer">
+     
+  <button type="button" class="social-button google" onclick="handleGoogleSignUp()">
+    <img src="google.png" alt="Google Logo" style="height: 1.2em;width: auto;vertical-align: middle;transform: scale(1.2);">
+</button>   </div>
+    </div>
+    
+    <p style="margin-top:15px; font-size:0.8rem; color:#666; text-align:center;">
+        Already a seeker? <span onclick="showLogin()" style="color:rgb(16, 137, 211); cursor:pointer; font-weight:800;">Login here</span>
+    </p>
+</div>
+<script src="biverse.js"></script>
+
+</body>
+</html>
